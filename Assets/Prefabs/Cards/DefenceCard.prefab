@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 265522483872264006}
   - component: {fileID: 6885745188028860723}
   - component: {fileID: 3612849990652792611}
-  - component: {fileID: 4794980359069143408}
+  - component: {fileID: 2766788465810621416}
   m_Layer: 0
   m_Name: DefenceCard
   m_TagString: Untagged
@@ -321,7 +321,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.1608868, y: 3.0609238}
   m_EdgeRadius: 0
---- !u!114 &4794980359069143408
+--- !u!114 &2766788465810621416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,10 +330,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3851076362221629103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 008e2bed922b6fb4d9eb49b8a2284002, type: 3}
+  m_Script: {fileID: 11500000, guid: 264f9868bf25ae0448621b117037d4e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardType: 0
+  _cardType: 1
+  _cost: 1
+  _defenseAmount: 5
 --- !u!1 &4488613661679452321
 GameObject:
   m_ObjectHideFlags: 0

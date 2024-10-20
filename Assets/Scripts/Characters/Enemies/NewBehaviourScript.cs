@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NewNamespace
 {
-    public class GameStateObserver : MonoBehaviour
+    public class NewBehaviourScript : MonoBehaviour
     {
     	private void Start()
     	{

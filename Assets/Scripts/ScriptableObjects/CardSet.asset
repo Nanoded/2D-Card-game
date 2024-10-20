@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CardSet
   m_EditorClassIdentifier: 
   _cards:
-  - {fileID: 5827150017984516540, guid: 577cb59f0203fde47bd59c9ca203e146, type: 3}
-  - {fileID: 4794980359069143408, guid: 0721d4d63f3ec6844b70ffbe2efd4160, type: 3}
-  - {fileID: 3336568718245506636, guid: 33f6a735f660e3248bc10a8021a22e51, type: 3}
+  - {fileID: 651598066058815599, guid: 577cb59f0203fde47bd59c9ca203e146, type: 3}
+  - {fileID: 2766788465810621416, guid: 0721d4d63f3ec6844b70ffbe2efd4160, type: 3}
+  - {fileID: 1592928274766085099, guid: 33f6a735f660e3248bc10a8021a22e51, type: 3}

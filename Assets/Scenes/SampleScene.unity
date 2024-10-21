@@ -3538,7 +3538,7 @@ GameObject:
   - component: {fileID: 777399269}
   - component: {fileID: 777399270}
   m_Layer: 0
-  m_Name: Mediator
+  m_Name: Facade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3568,7 +3568,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777399268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00ebb43fa81acb1409407da22eed2666, type: 3}
+  m_Script: {fileID: 11500000, guid: e6df4ed2e53a6464d8ef836f58add14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &781087714
@@ -7974,7 +7974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardsManipulator: {fileID: 132809085}
   _charactersHolder: {fileID: 174940043}
-  _mediator: {fileID: 777399270}
+  _facade: {fileID: 777399270}
 --- !u!1 &1921135299
 GameObject:
   m_ObjectHideFlags: 0

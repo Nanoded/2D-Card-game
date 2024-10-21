@@ -1,6 +1,5 @@
 using CardGame.Cards;
 using CardGame.Characters;
-using System.Collections;
 using UnityEngine;
 
 namespace CardGame
@@ -9,11 +8,11 @@ namespace CardGame
     {
         [SerializeField] private CardsManipulator _cardsManipulator;
         [SerializeField] private CharactersHolder _charactersHolder;
-        [SerializeField] private Facade _facade;
+        [SerializeField] private TurnHandler _turnHandler;
 
         private void Start()
         {
-            _facade.Initialize(_cardsManipulator, _charactersHolder);
+            _turnHandler.Initialize(_cardsManipulator, _charactersHolder);
         }
     }
 }

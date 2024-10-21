@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace CardGame.Cards
 {
-    public class CardHolder : MonoBehaviour, IPointerClickHandler
+    public class CardHolder : MonoBehaviour//, IPointerClickHandler
     {
         private const float c_cardPulloutHeight = 2;
         private const float c_cardTweensSpeed = .5f;
@@ -22,6 +22,7 @@ namespace CardGame.Cards
         private Vector3 _positionInHand;
 
         public BaseCard CardInHolder => _cardInHolder;
+        public bool IsSelected => _isSelected;
 
         public void Initialize(CardsManipulator cardManipulator, Transform cardPool)
         {
@@ -35,18 +36,18 @@ namespace CardGame.Cards
             _startSortingOrder = _sortingGroup.sortingOrder;
         }
 
-        private void SelectCard()
+        public void SelectCard()
         {
+            _isSelected = true;
             _sortingGroup.sortingOrder = c_maxSortingOrder;
             transform.DOLocalMoveY(transform.up.y * c_cardPulloutHeight, c_cardTweensSpeed);
-            _cardManipulator.SelectCardHolder(this);
         }
 
         public void DeselectCard()
         {
+            _isSelected = false;
             transform.DOMove(_positionInHand, c_cardTweensSpeed);
             _sortingGroup.sortingOrder = _startSortingOrder;
-            _cardManipulator.DeselectCardHolder();
         }
 
         public void FillInCard(BaseCard card)
@@ -70,12 +71,12 @@ namespace CardGame.Cards
             _cardInHolder.UseCard(character);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (_cardInHolder == null) return;
-            _isSelected = !_isSelected;
-            if (_isSelected) SelectCard();
-            else DeselectCard();
-        }
+        //public void OnPointerClick(PointerEventData eventData)
+        //{
+        //    if (_cardInHolder == null) return;
+        //    _isSelected = !_isSelected;
+        //    if (_isSelected) SelectCard();
+        //    else DeselectCard();
+        //}
     }
 }

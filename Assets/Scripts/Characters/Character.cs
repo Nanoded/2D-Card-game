@@ -3,33 +3,53 @@ using UnityEngine.EventSystems;
 
 namespace CardGame.Characters
 {
-    public abstract class Character : MonoBehaviour, IPointerClickHandler
+    public abstract class Character : MonoBehaviour
     {
+        [SerializeField] private AnimationsController _animationsController;
+        [SerializeField] private Collider2D _damageHandlerCollider;
         [SerializeField] private DefenseUI _defenseUI;
         [SerializeField] private GameObject _frame;
+        [SerializeField] private int _basicDefense;
         [SerializeField] private int _maxHealth;
         [SerializeField] private Healthbar _healthbar;
         private int _currentDefense;
         private int _currentHealth;
-        private Facade _facade;
+        protected CharactersHolder _characterHolder;
 
-        public void Initialize(Facade facade)
+        public bool IsDead => _currentHealth <= 0;
+
+        public void Initialize(CharactersHolder characterHolder)
         {
-            _facade = facade;
+            _characterHolder = characterHolder;
             _currentHealth = _maxHealth;
+            _currentDefense = _basicDefense;
             _healthbar.Initialize(_maxHealth);
             _defenseUI.UpdateDefenseAmount(_currentDefense);
         }
 
-        private void SelectCharacter()
+        private int ApplyDefenseToDamage(int damageAmount)
         {
-            _facade.UseCard(this);
-            SetActiveFrame(false);
+            int damage = damageAmount - _currentDefense;
+            damage = damage < 0 ? 0 : damage;
+            _currentDefense -= damageAmount;
+            if (_currentDefense < 0)
+            {
+                _currentDefense = 0;
+            }
+            _defenseUI.UpdateDefenseAmount(_currentDefense);
+            return damage;
         }
 
-        public void SetActiveFrame(bool isActive)
+        public void SelectCharacter()
+        {
+            _characterHolder.UseCard(this);
+            EnableTakeDamage(false);
+        }
+
+        public void EnableTakeDamage(bool isActive)
         {
             _frame.SetActive(isActive);
+            _damageHandlerCollider.enabled = isActive;
         }
 
         public void Heal(int healingAmount)
@@ -40,34 +60,33 @@ namespace CardGame.Characters
                 _currentHealth = _maxHealth;
             }
             _healthbar.UpdateHP(_currentHealth);
+            _animationsController.PlayBuffAnimation();
         }
 
         public void GetDamage(int damageAmount)
         {
-            int damage = damageAmount - _currentDefense;
-            _currentDefense -= damageAmount;
-            if (_currentDefense < 0)
-            {
-                _currentDefense = 0;
-            }
-            _defenseUI.UpdateDefenseAmount(_currentDefense);
+            int damage = ApplyDefenseToDamage(damageAmount);
             _currentHealth -= damage;
-            if (_currentHealth < 0)
+            if (_currentHealth <= 0)
             {
                 _currentHealth = 0;
+                _characterHolder.CharacterDeathHandler(this);
+                _animationsController.PlayDeathAnimation();
             }
             _healthbar.UpdateHP(_currentHealth);
+            _animationsController.PlayHurtAnimation();
         }
 
         public void AddDefense(int defenseAmount)
         {
             _currentDefense += defenseAmount;
             _defenseUI.UpdateDefenseAmount(_currentDefense);
+            _animationsController.PlayBuffAnimation();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public virtual void Attack()
         {
-            SelectCharacter();
+            _animationsController.PlayAttackAnimation();
         }
     }
 }

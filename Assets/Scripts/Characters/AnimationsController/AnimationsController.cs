@@ -1,18 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationsController : MonoBehaviour
+namespace CardGame.Characters
 {
-    // Start is called before the first frame update
-    void Start()
+    public class AnimationsController : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Animator _animator;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void PlayAttackAnimation()
+        {
+            _animator.SetTrigger(AnimationHash.AttackTrigger);
+        }
+
+        public void PlayBuffAnimation()
+        {
+            _animator.SetTrigger(AnimationHash.BuffTrigger);
+        }
+
+        public void PlayDeathAnimation()
+        {
+            _animator.SetBool(AnimationHash.DeathBool, true);
+        }
+
+        public void PlayHurtAnimation()
+        {
+            _animator.SetTrigger(AnimationHash.HurtTrigger);
+        }
     }
 }
+

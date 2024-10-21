@@ -12,11 +12,17 @@ namespace CardGame.Characters
 
         private Character _player;
         private Character[] _enemies;
-        private Facade _facade;
+        private int _deadEnemies;
 
-        public void Initialize(Facade facade)
+        public delegate void DeathEventHandler();
+        public event DeathEventHandler OnPlayerDeath;
+        public event DeathEventHandler OnAllEnemiesDefeated;
+
+        public Character Player => _player;
+        public Character[] Enemies => _enemies;
+
+        public void Initialize()
         {
-            _facade = facade;
             SpawnAndInitializePlayer();
             SpawnAndInitializeEnemies();
         }
@@ -24,7 +30,7 @@ namespace CardGame.Characters
         private void SpawnAndInitializePlayer()
         {
             _player = Instantiate(_playerPrefab, _playerSpawnPoint);
-            _player.Initialize(_facade);
+            _player.Initialize(this);
         }
 
         private void SpawnAndInitializeEnemies()
@@ -33,7 +39,7 @@ namespace CardGame.Characters
             for(int i = 0; i < _enemiesSpawnPoints.Length; i++)
             {
                 _enemies[i] = Instantiate(_enemiesPrefab[i], _enemiesSpawnPoints[i]);
-                _enemies[i].Initialize(_facade);
+                _enemies[i].Initialize(this);
             }
         }
 
@@ -41,13 +47,14 @@ namespace CardGame.Characters
         {
             foreach(Character enemy in _enemies)
             {
-                enemy.SetActiveFrame(true);
+                if(enemy.IsDead) continue;
+                enemy.EnableTakeDamage(true);
             }
         }
 
         private void ActivatePlayerFrame()
         {
-            _player.SetActiveFrame(true);
+            _player.EnableTakeDamage(true);
         }
 
         public void ActivateFrames(CardType cardType)
@@ -64,12 +71,36 @@ namespace CardGame.Characters
             }
         }
 
+        public void CharacterDeathHandler(Character character)
+        {
+            if(character is Player)
+            {
+                OnPlayerDeath?.Invoke();
+            }
+            else
+            {
+                _deadEnemies++;
+                if(_deadEnemies >= _enemies.Length)
+                {
+                    OnAllEnemiesDefeated?.Invoke();
+                }
+            }
+        }
+
         public void DeactivateFrames()
         {
-            _player.SetActiveFrame(false);
+            _player.EnableTakeDamage(false);
             foreach(Character enemy in _enemies)
             { 
-                enemy.SetActiveFrame(false); 
+                enemy.EnableTakeDamage(false); 
+            }
+        }
+
+        public void UseCard(Character character)
+        {
+            if(character is not Characters.Player)
+            {
+                _player.Attack();
             }
         }
     }

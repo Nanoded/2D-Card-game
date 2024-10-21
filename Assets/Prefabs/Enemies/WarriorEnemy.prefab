@@ -169,7 +169,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2725005933404305983}
   - component: {fileID: 3340969882317603074}
-  - component: {fileID: 85779509512506798}
   m_Layer: 0
   m_Name: Frame
   m_TagString: Untagged
@@ -244,51 +243,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &85779509512506798
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358526292087139429}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.24}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.25, y: 1.24}
-  m_EdgeRadius: 0
 --- !u!1 &1635917765279849400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,8 +1111,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2470073479417467048}
   - component: {fileID: 6293414847273297621}
+  - component: {fileID: 4871446263380730007}
   - component: {fileID: 5236180264732888762}
   - component: {fileID: 5385162658871076551}
+  - component: {fileID: 3968869650196975699}
   m_Layer: 0
   m_Name: WarriorEnemy
   m_TagString: Untagged
@@ -1208,6 +1164,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &4871446263380730007
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534971195201618122}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.67, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.25, y: 1.24}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.25, y: 1.24}
+  m_EdgeRadius: 0
 --- !u!210 &5236180264732888762
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1232,10 +1233,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134deeb27d5e6c24795ae69cd70da2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationsController: {fileID: 3968869650196975699}
+  _damageHandlerCollider: {fileID: 4871446263380730007}
   _defenseUI: {fileID: 9017750130858704471}
   _frame: {fileID: 1358526292087139429}
+  _basicDefense: 0
   _maxHealth: 20
   _healthbar: {fileID: 4705719301276201549}
+  _damage: 20
+  _defense: 5
+--- !u!114 &3968869650196975699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534971195201618122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cf069af80426a418a7c62ee16fce80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 6293414847273297621}
 --- !u!1 &6799558171351942521
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,25 +14,23 @@ namespace CardGame.Cards
         [SerializeField] private Transform _cardPool;
 
         [Header("Visual settings")]
-        [SerializeField] private TextMeshPro _cardsInDeck;
-        [SerializeField] private TextMeshPro _cardsInFoldedDeck;
-        [SerializeField] private TextMeshPro _currencyAmount;
+        [SerializeField] private TextMeshPro _cardsInDeckText;
+        [SerializeField] private TextMeshPro _cardsInFoldedDeckText;
+        [SerializeField] private TextMeshPro _currencyAmountText;
 
         private CardHolder _selectedCardHolder;
         private Deck _deck;
         private FoldedDeck _foldedDeck;
         private int _currentCurrencyAmount;
-        private Facade _facade;
 
         public CardHolder SelectedCardHolder => _selectedCardHolder;
 
-        public void Initialize(Facade facade)
+        public void Initialize()
         {
-            _facade = facade;
-            _currentCurrencyAmount = _currencyPerTurn;
             CreateDecks();
             InitializeCardsHolders();
             FillInHand();
+            RestoreCurrencyAmount();
         }
 
         private void CreateDecks()
@@ -53,9 +51,9 @@ namespace CardGame.Cards
 
         private void UpdateUI()
         {
-            _cardsInDeck.text = _deck.CardsInDeck.Count.ToString();
-            _cardsInFoldedDeck.text = _foldedDeck.CardsInFoldedDeck.Count.ToString();
-            _currencyAmount.text = _currentCurrencyAmount.ToString();
+            _cardsInDeckText.text = _deck.CardsInDeck.Count.ToString();
+            _cardsInFoldedDeckText.text = _foldedDeck.CardsInFoldedDeck.Count.ToString();
+            _currencyAmountText.text = _currentCurrencyAmount.ToString();
         }
 
         public void FillInHand()
@@ -76,30 +74,27 @@ namespace CardGame.Cards
 
         public void FoldCardsInHand()
         {
-            _facade.DeselectCard();
+            _selectedCardHolder?.DeselectCard();
             foreach(CardHolder holder in _holdersInHand)
             {
                 if(holder.CardInHolder == null) continue;
                 _foldedDeck.AddCard(holder.CardInHolder);
                 holder.FoldCard();
             }
-            _cardsInFoldedDeck.text = _foldedDeck.CardsInFoldedDeck.Count.ToString();
+            _cardsInFoldedDeckText.text = _foldedDeck.CardsInFoldedDeck.Count.ToString();
         }
 
-        public void SelectCardHolder(CardHolder cardHolder)
+        public void SelectCardHolder(CardHolder cardHolder, out bool canUseCard)
         {
             if (_selectedCardHolder != null) _selectedCardHolder.DeselectCard();
-            _facade.DeselectCard();
             _selectedCardHolder = cardHolder;
-            if(_currentCurrencyAmount >= _selectedCardHolder.CardInHolder.Cost)
-            {
-                _facade.SelectCard();
-            }
+            cardHolder.SelectCard();
+            canUseCard = _currentCurrencyAmount >= _selectedCardHolder.CardInHolder.Cost;
         }
 
         public void DeselectCardHolder()
         {
-            _facade.DeselectCard();
+            _selectedCardHolder?.DeselectCard();
             _selectedCardHolder = null;
         }
 
@@ -109,6 +104,12 @@ namespace CardGame.Cards
             _foldedDeck.AddCard(_selectedCardHolder.CardInHolder);
             _selectedCardHolder.UseCard(character);
             _selectedCardHolder.FoldCard();
+            UpdateUI();
+        }
+
+        public void RestoreCurrencyAmount()
+        {
+            _currentCurrencyAmount = _currencyPerTurn;
             UpdateUI();
         }
     }

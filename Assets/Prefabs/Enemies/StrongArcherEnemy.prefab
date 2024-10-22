@@ -468,7 +468,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1679294964, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
+  m_Sprite: {fileID: 1032800485, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -553,7 +553,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -860681918, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
+  m_Sprite: {fileID: -1976190868, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -713,7 +713,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -860681918, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
+  m_Sprite: {fileID: -1976190868, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1078,11 +1078,11 @@ MonoBehaviour:
   _damageHandlerCollider: {fileID: 5958497334476442655}
   _defenseUI: {fileID: 3841963677972237300}
   _frame: {fileID: 6912352079457882390}
-  _basicDefense: 0
-  _maxHealth: 10
+  _basicDefense: 1
+  _maxHealth: 15
   _healthbar: {fileID: 6908954973860103247}
-  _damage: 15
-  _heal: 3
+  _damage: 20
+  _heal: 5
 --- !u!114 &916869964005857059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1245,7 +1245,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1404542980, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
+  m_Sprite: {fileID: -340217135, guid: c8a402d6f19cbc646852427825ad08de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0

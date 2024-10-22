@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace CardGame.Cards
 {
-    public class CardHolder : MonoBehaviour//, IPointerClickHandler
+    public class CardHolder : MonoBehaviour
     {
         private const float c_cardPulloutHeight = 2;
         private const float c_cardTweensSpeed = .5f;
@@ -70,13 +70,5 @@ namespace CardGame.Cards
         {
             _cardInHolder.UseCard(character);
         }
-
-        //public void OnPointerClick(PointerEventData eventData)
-        //{
-        //    if (_cardInHolder == null) return;
-        //    _isSelected = !_isSelected;
-        //    if (_isSelected) SelectCard();
-        //    else DeselectCard();
-        //}
     }
 }

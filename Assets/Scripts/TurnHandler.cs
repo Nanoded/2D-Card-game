@@ -7,7 +7,7 @@ namespace CardGame
 {
     public class TurnHandler : MonoBehaviour
     {
-        [SerializeField] private float _enemyTurnDelay = 1.5f;
+        [SerializeField] private float _enemyTurnDelay;
         [SerializeField] private GameObject _loseScreen;
         [SerializeField] private GameObject _winScreen;
 
@@ -24,9 +24,6 @@ namespace CardGame
             _charactersHolder = charactersHolder;
             _charactersHolder.OnPlayerDeath += LoseGame;
             _charactersHolder.OnAllEnemiesDefeated += WinGame;
-
-            _cardManipulator.Initialize();
-            _charactersHolder.Initialize();
         }
 
         private void Update()

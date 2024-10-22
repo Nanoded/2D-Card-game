@@ -32,7 +32,7 @@ namespace CardGame.Cards
         {
             foreach (CardHolder holder in _configs.HoldersInHand)
             {
-                holder.Initialize(this, _configs.CardPool);
+                holder.Initialize(_configs.CardPool);
             }
         }
 
@@ -89,7 +89,7 @@ namespace CardGame.Cards
         {
             _currentCurrencyAmount -= _selectedCardHolder.CardInHolder.Cost;
             _foldedDeck.AddCard(_selectedCardHolder.CardInHolder);
-            _selectedCardHolder.UseCard(character);
+            _selectedCardHolder.CardInHolder.UseCard(character);
             _selectedCardHolder.FoldCard();
             UpdateUI();
         }

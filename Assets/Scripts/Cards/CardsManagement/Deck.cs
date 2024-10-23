@@ -11,22 +11,9 @@ namespace CardGame.Cards
 
         public IReadOnlyList<BaseCard> CardsInDeck => _cardsInDeck;
 
-        public Deck(CardSet cardSet, int cardsInDeck, Transform cardPool)
+        public Deck()
         {
             _cardsInDeck = new();
-            FillInDeck(cardSet, cardsInDeck, cardPool);
-        }
-
-        private void FillInDeck(CardSet cardSet, int cardsInDeck, Transform cardPool)
-        {
-            for (int i = 0; i < cardsInDeck; i++)
-            {
-                int randomCardIndex = Random.Range(0, cardSet.Cards.Length);
-                BaseCard card = cardSet.Cards.ElementAtOrDefault(randomCardIndex);
-                BaseCard instantiatedCard = Object.Instantiate(card);
-                instantiatedCard.transform.position = cardPool.position;
-                _cardsInDeck.Add(instantiatedCard);
-            }
         }
 
         private void ShuffleCards()
@@ -35,6 +22,18 @@ namespace CardGame.Cards
             {
                 int randomIndex = Random.Range(0, i + 1);
                 (_cardsInDeck[randomIndex], _cardsInDeck[i]) = (_cardsInDeck[i], _cardsInDeck[randomIndex]);
+            }
+        }
+
+        public void FillInDeck(CardSet cardSet, int cardsInDeck, Transform cardPool)
+        {
+            for (int i = 0; i < cardsInDeck; i++)
+            {
+                int randomCardIndex = Random.Range(0, cardSet.Cards.Length);
+                BaseCard card = cardSet.Cards.ElementAtOrDefault(randomCardIndex);
+                BaseCard instantiatedCard = Object.Instantiate(card);
+                instantiatedCard.transform.position = cardPool.position;
+                _cardsInDeck.Add(instantiatedCard);
             }
         }
 

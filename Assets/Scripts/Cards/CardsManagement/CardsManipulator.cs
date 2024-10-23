@@ -25,8 +25,9 @@ namespace CardGame.Cards
 
         private void CreateDecks()
         {
-            _deck = new Deck(_configs.CardSet, _configs.MaxCardsInDeck, _configs.CardPool);
+            _deck = new Deck();
             _foldedDeck = new FoldedDeck();
+            _deck.FillInDeck(_configs.CardSet, _configs.MaxCardsInDeck, _configs.CardPool);
             UpdateUI();
         }
 

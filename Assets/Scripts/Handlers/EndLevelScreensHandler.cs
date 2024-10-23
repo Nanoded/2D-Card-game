@@ -1,7 +1,9 @@
+using CardGame.BusEvents;
+
 namespace CardGame
 {
     [System.Serializable]
-    public class EndLevelScreensHandler
+    public class EndLevelScreensHandler : IEndLevelHandler
     {
         [UnityEngine.SerializeField] private GameStateHandlerConfig _config;
 
@@ -13,6 +15,18 @@ namespace CardGame
         public void LoseGame()
         {
             _config.LoseScreen.SetActive(true);
+        }
+
+        public void OnEndLevelHandler(bool isWin)
+        {
+            if (isWin)
+            {
+                WinGame();
+            }
+            else
+            {
+                LoseGame();
+            }
         }
     }
 }

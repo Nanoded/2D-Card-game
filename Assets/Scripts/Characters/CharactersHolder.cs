@@ -1,19 +1,16 @@
 using CardGame.Cards;
+using CardGame.BusEvents;
 
 namespace CardGame.Characters
 {
     [System.Serializable]
-    public class CharactersHolder
+    public class CharactersHolder : IEndPlayerTurnHandler, IDeselectCardHandler, IActivateCardUsage, IUseCardHandler
     {
         [UnityEngine.SerializeField] private CharactersHolderConfig _config;
 
         private Character _player;
         private Character[] _enemies;
         private int _deadEnemies;
-
-        public delegate void DeathEventHandler();
-        public event DeathEventHandler OnPlayerDeath;
-        public event DeathEventHandler OnAllEnemiesDefeated;
 
         public Character Player => _player;
         public Character[] Enemies => _enemies;
@@ -40,29 +37,29 @@ namespace CardGame.Characters
             }
         }
 
-        private void ActivateEnemiesFrames()
+        private void ActivateEnemies()
         {
             foreach(Character enemy in _enemies)
             {
                 if(enemy.IsDead) continue;
-                enemy.EnableTakeDamage(true);
+                enemy.CanUseCard(true);
             }
         }
 
-        private void ActivatePlayerFrame()
+        private void ActivatePlayer()
         {
-            _player.EnableTakeDamage(true);
+            _player.CanUseCard(true);
         }
 
-        public void ActivateFrames(CardType cardType)
+        public void ActivateCharacters(CardType cardType)
         {
             switch (cardType)
             {
                 case CardType.Attack:
-                    ActivateEnemiesFrames();
+                    ActivateEnemies();
                     break;
                 case CardType.Buff: 
-                    ActivatePlayerFrame();
+                    ActivatePlayer();
                     break;
                 default: break;
             }
@@ -72,24 +69,24 @@ namespace CardGame.Characters
         {
             if(character is Player)
             {
-                OnPlayerDeath?.Invoke();
+                EventBus.Invoke<IEndLevelHandler>(subscriber => subscriber.OnEndLevelHandler(false));
             }
             else
             {
                 _deadEnemies++;
                 if(_deadEnemies >= _enemies.Length)
                 {
-                    OnAllEnemiesDefeated?.Invoke();
+                    EventBus.Invoke<IEndLevelHandler>(subscriber => subscriber.OnEndLevelHandler(true));
                 }
             }
         }
 
         public void DeactivateFrames()
         {
-            _player.EnableTakeDamage(false);
+            _player.CanUseCard(false);
             foreach(Character enemy in _enemies)
-            { 
-                enemy.EnableTakeDamage(false); 
+            {
+                enemy.CanUseCard(false); 
             }
         }
 
@@ -99,6 +96,26 @@ namespace CardGame.Characters
             {
                 _player.Attack();
             }
+        }
+
+        public void OnEndPlayerTurnHandler()
+        {
+            EventBus.Invoke<IStartEnemiesTurnHandler>(subscriber => subscriber.OnStartEnemiesTurnHandler(_enemies));
+        }
+
+        public void OnDeselectCardHandler()
+        {
+            DeactivateFrames();
+        }
+
+        public void OnActivateCardUsageHandler(CardType cardType)
+        {
+            ActivateCharacters(cardType);
+        }
+
+        public void OnUseCardHandler(Character character)
+        {
+            //OnDeselectCardHandler();
         }
     }
 }

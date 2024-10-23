@@ -43,10 +43,10 @@ namespace CardGame.Characters
         public void SelectCharacter()
         {
             _characterHolder.UseCard(this);
-            EnableTakeDamage(false);
+            CanUseCard(false);
         }
 
-        public void EnableTakeDamage(bool isActive)
+        public void CanUseCard(bool isActive)
         {
             _frame.SetActive(isActive);
             _damageHandlerCollider.enabled = isActive;
@@ -73,8 +73,11 @@ namespace CardGame.Characters
                 _characterHolder.CharacterDeathHandler(this);
                 _animationsController.PlayDeathAnimation();
             }
+            else
+            {
+                _animationsController.PlayHurtAnimation();
+            }
             _healthbar.UpdateHP(_currentHealth);
-            _animationsController.PlayHurtAnimation();
         }
 
         public void AddDefense(int defenseAmount)

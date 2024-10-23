@@ -1,20 +1,12 @@
 using CardGame.Characters;
+using CardGame.BusEvents;
 using UnityEngine;
 
 namespace CardGame.Cards
 {
-    public class CardHandler
+    public class CardHandler : IClickHandler
     {
         private bool _canUseCard;
-
-        public delegate void OnSelectCardHandler(CardHolder cardHolder);
-        public event OnSelectCardHandler OnSelectCard;
-
-        public delegate void OnUseCardHandler(Character character);
-        public event OnUseCardHandler OnUseCard;
-
-        public delegate void OnDeselectCardHandler();
-        public event OnDeselectCardHandler OnDeselectCard;
 
         private void TrySelectCard(Collider2D hittedCollider)
         {
@@ -34,8 +26,8 @@ namespace CardGame.Cards
         {
             if (hittedCollider.TryGetComponent(out Character character))
             {
-                OnUseCard?.Invoke(character);
                 if (character.IsDead || !_canUseCard) return;
+                EventBus.Invoke<IUseCardHandler>(subscriber => subscriber.OnUseCardHandler(character));
                 character.SelectCharacter();
                 DeselectCard();
             }
@@ -45,17 +37,18 @@ namespace CardGame.Cards
         {
             DeselectCard();
             _canUseCard = true;
-            OnSelectCard?.Invoke(cardHolder);
+            EventBus.Invoke<ISelectCardHandler>(subscriber => subscriber.OnSelectCardHandler(cardHolder));
         }
 
         private void DeselectCard()
         {
             _canUseCard = false;
-            OnDeselectCard?.Invoke();
+            EventBus.Invoke<IDeselectCardHandler>(subscriber => subscriber.OnDeselectCardHandler());
         }
 
-        public void OnMouseClickHandler(Collider2D hittedCollider)
+        public void OnClickHandler(Collider2D hittedCollider)
         {
+            if(hittedCollider == null) return;
             TrySelectCard(hittedCollider);
             TryUseCard(hittedCollider);
         }

@@ -24,6 +24,7 @@ namespace CardGame.SceneManagement
 
         public void StartNextLevel()
         {
+            _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             _currentSceneIndex++;
             if(_currentSceneIndex >= SceneManager.sceneCountInBuildSettings)
             {
@@ -40,6 +41,7 @@ namespace CardGame.SceneManagement
 
         public void ReloadCurrentScene()
         {
+            _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             LoadScene(_currentSceneIndex);
         }
     }

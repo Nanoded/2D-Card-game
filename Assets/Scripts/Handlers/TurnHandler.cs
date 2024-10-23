@@ -1,16 +1,13 @@
 using CardGame.Characters;
+using CardGame.BusEvents;
 using System.Threading.Tasks;
 
 namespace CardGame
 {
     [System.Serializable]
-    public class TurnHandler
+    public class TurnHandler : IStartEnemiesTurnHandler
     {
         [UnityEngine.SerializeField] private TurnHandlerConfig _config;
-
-        public delegate void OnTurnHandler();
-        public event OnTurnHandler OnStartPlayerTurn;
-        public event OnTurnHandler OnEndPlayerTurn;
 
         public void Initialize()
         {
@@ -37,12 +34,19 @@ namespace CardGame
 
         public void StartPlayerTurn()
         {
-            OnStartPlayerTurn?.Invoke();
+            _config.EndTurnButton.interactable = true;
+            EventBus.Invoke<IStartPlayerTurnHandler>(subscriber => subscriber.OnStartPlayerTurnHandler());
         }
 
         private void EndPlayerTurn()
         {
-            OnEndPlayerTurn?.Invoke();
+            EventBus.Invoke<IEndPlayerTurnHandler>(subscriber => subscriber.OnEndPlayerTurnHandler());
+        }
+
+        public void OnStartEnemiesTurnHandler(Character[] enemies)
+        {
+            _config.EndTurnButton.interactable = false;
+            StartEnemyTurn(enemies);
         }
     }
 }

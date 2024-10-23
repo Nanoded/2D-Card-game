@@ -1,9 +1,10 @@
 using CardGame.Characters;
+using CardGame.BusEvents;
 
 namespace CardGame.Cards
 {
     [System.Serializable]
-    public class CardsManipulator
+    public class CardsManipulator : IStartPlayerTurnHandler, IEndPlayerTurnHandler, ISelectCardHandler, IUseCardHandler, IDeselectCardHandler
     {
         [UnityEngine.SerializeField] private CardsManipulatorConfig _configs;
 
@@ -13,9 +14,6 @@ namespace CardGame.Cards
         private int _currentCurrencyAmount;
 
         public CardHolder SelectedCardHolder => _selectedCardHolder;
-
-        public delegate void OnEnoughCurrencyHandler(CardType cardType);
-        public event OnEnoughCurrencyHandler OnEnoughCurrency;
 
         public void Initialize()
         {
@@ -82,7 +80,7 @@ namespace CardGame.Cards
             cardHolder.SelectCard();
             if(_currentCurrencyAmount >= _selectedCardHolder.CardInHolder.Cost)
             {
-                OnEnoughCurrency(_selectedCardHolder.CardInHolder.CardType);
+                EventBus.Invoke<IActivateCardUsage>(subscriber => subscriber.OnActivateCardUsageHandler(_selectedCardHolder.CardInHolder.CardType));
             }
         }
 
@@ -106,6 +104,33 @@ namespace CardGame.Cards
         {
             _currentCurrencyAmount = _configs.CurrencyPerTurn;
             UpdateUI();
+        }
+
+        public void OnStartPlayerTurnHandler()
+        {
+            FillInHand();
+            RestoreCurrencyAmount();
+        }
+
+        public void OnEndPlayerTurnHandler()
+        {
+            FoldCardsInHand();
+            DeselectCardHolder();
+        }
+
+        public void OnSelectCardHandler(CardHolder cardHolder)
+        {
+            SelectCardHolder(cardHolder);
+        }
+
+        public void OnUseCardHandler(Character character)
+        {
+            UseCard(character);
+        }
+
+        public void OnDeselectCardHandler()
+        {
+            DeselectCardHolder();
         }
     }
 }

@@ -1,3 +1,4 @@
+using CardGame.BusEvents;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,9 +9,6 @@ namespace CardGame
         private Camera _mainCamera;
         private InputAction _mouseLeftClickAction;
         private InputAction _mousePosition;
-
-        public delegate void OnClickHandler(Collider2D hittedCollider);
-        public event OnClickHandler OnClick;
 
         public InputHandler()
         {
@@ -36,7 +34,7 @@ namespace CardGame
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider != null)
             {
-                OnClick?.Invoke(hit.collider);
+                EventBus.Invoke<IClickHandler>(subscriber => subscriber.OnClickHandler(hit.collider));
             }
         }
 

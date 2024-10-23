@@ -2,9 +2,11 @@ using CardGame.Characters;
 
 namespace CardGame.Cards
 {
+    [System.Serializable]
     public class CardsManipulator
     {
-        private CardsManipulatorConfig _configs;
+        [UnityEngine.SerializeField] private CardsManipulatorConfig _configs;
+
         private CardHolder _selectedCardHolder;
         private Deck _deck;
         private FoldedDeck _foldedDeck;
@@ -12,9 +14,11 @@ namespace CardGame.Cards
 
         public CardHolder SelectedCardHolder => _selectedCardHolder;
 
-        public CardsManipulator(CardsManipulatorConfig configs)
+        public delegate void OnEnoughCurrencyHandler(CardType cardType);
+        public event OnEnoughCurrencyHandler OnEnoughCurrency;
+
+        public void Initialize()
         {
-            _configs = configs;
             CreateDecks();
             InitializeCardsHolders();
             FillInHand();
@@ -71,12 +75,15 @@ namespace CardGame.Cards
             UpdateUI();
         }
 
-        public void SelectCardHolder(CardHolder cardHolder, out bool canUseCard)
+        public void SelectCardHolder(CardHolder cardHolder)
         {
             if (_selectedCardHolder != null) _selectedCardHolder.DeselectCard();
             _selectedCardHolder = cardHolder;
             cardHolder.SelectCard();
-            canUseCard = _currentCurrencyAmount >= _selectedCardHolder.CardInHolder.Cost;
+            if(_currentCurrencyAmount >= _selectedCardHolder.CardInHolder.Cost)
+            {
+                OnEnoughCurrency(_selectedCardHolder.CardInHolder.CardType);
+            }
         }
 
         public void DeselectCardHolder()
@@ -87,6 +94,7 @@ namespace CardGame.Cards
 
         public void UseCard(Character character)
         {
+            if (_selectedCardHolder == null) return;
             _currentCurrencyAmount -= _selectedCardHolder.CardInHolder.Cost;
             _foldedDeck.AddCard(_selectedCardHolder.CardInHolder);
             _selectedCardHolder.CardInHolder.UseCard(character);

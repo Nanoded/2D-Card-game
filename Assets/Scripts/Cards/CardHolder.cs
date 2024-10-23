@@ -8,6 +8,7 @@ namespace CardGame.Cards
     {
         private const int c_maxSortingOrder = 100;
 
+        [SerializeField] private Collider2D _interactiveCollider;
         [SerializeField] private float _cardPulloutHeight = 2;
         [SerializeField] private float _cardTweensSpeed = .5f;
         [SerializeField] private SortingGroup _sortingGroup;
@@ -49,6 +50,7 @@ namespace CardGame.Cards
         public void FillInCard(BaseCard card)
         {
             _cardInHolder = card;
+            _interactiveCollider.enabled = true;
             _cardInHolder.transform.SetParent(transform, false);
             _cardInHolder.transform.DOLocalMove(Vector3.zero, _cardTweensSpeed);
             _cardInHolder.transform.DOLocalRotate(Vector3.zero, _cardTweensSpeed);
@@ -56,6 +58,7 @@ namespace CardGame.Cards
 
         public void FoldCard()
         {
+            _interactiveCollider.enabled = false;
             _cardInHolder.transform.SetParent(null);
             _cardInHolder.transform.DOMove(_cardPool.position, _cardTweensSpeed);
             _cardInHolder = null;

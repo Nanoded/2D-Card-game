@@ -126,7 +126,7 @@ Transform:
   m_GameObject: {fileID: 1900400483246522578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.21692207, w: 0.97618896}
-  m_LocalPosition: {x: 2.119, y: -0.36, z: 0}
+  m_LocalPosition: {x: 2.119, y: -0.36, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb110a1a63d3f14a8128e6b4318d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveCollider: {fileID: 4613035155304048266}
   _cardPulloutHeight: 1.5
   _cardTweensSpeed: 0.5
   _sortingGroup: {fileID: 1251235710395556517}
@@ -879,7 +880,7 @@ Transform:
   m_GameObject: {fileID: 5918584621389086606}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.115058295, w: 0.99335873}
-  m_LocalPosition: {x: -0.878, y: -0.238, z: 0}
+  m_LocalPosition: {x: -0.878, y: -0.238, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -954,6 +955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb110a1a63d3f14a8128e6b4318d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveCollider: {fileID: 9107415794541464100}
   _cardPulloutHeight: 1.5
   _cardTweensSpeed: 0.5
   _sortingGroup: {fileID: 1208782470307868566}
@@ -985,7 +987,7 @@ Transform:
   m_GameObject: {fileID: 6100482541504660336}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.104217224, w: 0.9945546}
-  m_LocalPosition: {x: 1.19, y: -0.234, z: 0}
+  m_LocalPosition: {x: 1.19, y: -0.234, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1060,6 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb110a1a63d3f14a8128e6b4318d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveCollider: {fileID: 8499183745869539163}
   _cardPulloutHeight: 1.5
   _cardTweensSpeed: 0.5
   _sortingGroup: {fileID: 4364679270210990069}
@@ -1091,7 +1094,7 @@ Transform:
   m_GameObject: {fileID: 7080827090560058511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.20450711, w: 0.9788651}
-  m_LocalPosition: {x: -1.92, y: -0.3599999, z: 0}
+  m_LocalPosition: {x: -1.92, y: -0.3599999, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1166,6 +1169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb110a1a63d3f14a8128e6b4318d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveCollider: {fileID: 242792030696476936}
   _cardPulloutHeight: 1.5
   _cardTweensSpeed: 0.5
   _sortingGroup: {fileID: 4764202331690189707}
@@ -1362,7 +1366,7 @@ Transform:
   m_GameObject: {fileID: 8930080951090528891}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.15, y: -0.1, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1437,6 +1441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb110a1a63d3f14a8128e6b4318d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveCollider: {fileID: 3866160955866511410}
   _cardPulloutHeight: 1.5
   _cardTweensSpeed: 0.5
   _sortingGroup: {fileID: 3217373403168618414}

@@ -6,33 +6,77 @@ namespace CardGame
 {
     public class Bootstrap : MonoBehaviour
     {
-        [Header("Configs")]
-        [SerializeField] private CardsManipulatorConfig _cardsManipulatorConfig;
-        [SerializeField] private CharactersHolderConfig _charactersHolderConfig;
-        [SerializeField] private GameStateHandlerConfig _gameStateHandlerConfig;
-        [SerializeField] private TurnHandlerConfig _turnHandlerConfig;
-
+        [SerializeField] private CardsManipulator _cardsManipulator;
+        [SerializeField] private CharactersHolder _charactersHolder;
+        [SerializeField] private EndLevelScreensHandler _endLevelScreensHandler;
+        [SerializeField] private TurnHandler _turnHandler;
         private CardHandler _cardHandler;
-        private CardsManipulator _cardsManipulator;
-        private CharactersHolder _charactersHolder;
-        private GameStateHandler _gameStateHandler;
         private InputHandler _inputHandler;
-        private TurnHandler _turnHandler;
 
         private void Start()
         {
-            _cardsManipulator = new CardsManipulator(_cardsManipulatorConfig);
-            _charactersHolder = new CharactersHolder(_charactersHolderConfig);
-            _cardHandler = new CardHandler(_cardsManipulator, _charactersHolder);
-            _gameStateHandler = new GameStateHandler(_gameStateHandlerConfig);
-            _inputHandler = new InputHandler(_cardHandler);
-            _turnHandler = new TurnHandler(_cardsManipulator, _charactersHolder, _turnHandlerConfig);
+            _cardHandler = new CardHandler();
+            _inputHandler = new InputHandler();
+            SubscribeToEvents();
+            InitializeAll();
         }
 
         private void OnDestroy()
         {
             _inputHandler.DisableInput();
-            _gameStateHandler.UnsubscribeFromEvents();
+            UnsubscribeFromEvents();
+        }
+
+        private void InitializeAll()
+        {
+            _cardsManipulator.Initialize();
+            _charactersHolder.Initialize();
+            _turnHandler.Initialize();
+        }
+
+        private void SubscribeToEvents()
+        {
+            _charactersHolder.OnPlayerDeath += _endLevelScreensHandler.LoseGame;
+            _charactersHolder.OnAllEnemiesDefeated += _endLevelScreensHandler.WinGame;
+            _inputHandler.OnClick += _cardHandler.OnMouseClickHandler;
+            _cardHandler.OnSelectCard += _cardsManipulator.SelectCardHolder;
+            _cardHandler.OnUseCard += _cardsManipulator.UseCard;
+            _cardHandler.OnDeselectCard += OnDeselectCardHandler;
+            _cardsManipulator.OnEnoughCurrency += _charactersHolder.ActivateFrames;
+            _turnHandler.OnStartPlayerTurn += OnStartPlayerTurnHandler;
+            _turnHandler.OnEndPlayerTurn += OnEndPlayerTurnHandler;
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            _charactersHolder.OnPlayerDeath -= _endLevelScreensHandler.LoseGame;
+            _charactersHolder.OnAllEnemiesDefeated -= _endLevelScreensHandler.WinGame;
+            _inputHandler.OnClick -= _cardHandler.OnMouseClickHandler;
+            _cardHandler.OnSelectCard -= _cardsManipulator.SelectCardHolder;
+            _cardHandler.OnUseCard -= _cardsManipulator.UseCard;
+            _cardHandler.OnDeselectCard -= OnDeselectCardHandler;
+            _cardsManipulator.OnEnoughCurrency -= _charactersHolder.ActivateFrames;
+            _turnHandler.OnStartPlayerTurn -= OnStartPlayerTurnHandler;
+            _turnHandler.OnEndPlayerTurn -= OnEndPlayerTurnHandler;
+        }
+
+        private void OnStartPlayerTurnHandler()
+        {
+            _cardsManipulator.FillInHand();
+            _cardsManipulator.RestoreCurrencyAmount();
+        }
+
+        private void OnEndPlayerTurnHandler()
+        {
+            _cardsManipulator.FoldCardsInHand();
+            _cardsManipulator.DeselectCardHolder();
+            _turnHandler.StartEnemyTurn(_charactersHolder.Enemies);
+        }
+
+        private void OnDeselectCardHandler()
+        {
+            _charactersHolder.DeactivateFrames();
+            _cardsManipulator.DeselectCardHolder();
         }
     }
 }

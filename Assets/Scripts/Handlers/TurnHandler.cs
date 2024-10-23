@@ -1,31 +1,25 @@
-using CardGame.Cards;
 using CardGame.Characters;
 using System.Threading.Tasks;
 
 namespace CardGame
 {
+    [System.Serializable]
     public class TurnHandler
     {
-        private CardsManipulator _cardManipulator;
-        private CharactersHolder _charactersHolder;
-        private TurnHandlerConfig _config;
+        [UnityEngine.SerializeField] private TurnHandlerConfig _config;
 
-        public TurnHandler(CardsManipulator cardManipulator, CharactersHolder charactersHolder, TurnHandlerConfig config)
+        public delegate void OnTurnHandler();
+        public event OnTurnHandler OnStartPlayerTurn;
+        public event OnTurnHandler OnEndPlayerTurn;
+
+        public void Initialize()
         {
-            _cardManipulator = cardManipulator;
-            _charactersHolder = charactersHolder;
-            _config = config;
             _config.EndTurnButton.onClick.AddListener(EndPlayerTurn);
         }
 
-        private async void StartEnemyTurn()
+        private async Task EnemyTurnSequence(Character[] enemies)
         {
-            await EnemyTurnSequence();
-        }
-
-        private async Task EnemyTurnSequence()
-        {
-            foreach (var enemy in _charactersHolder.Enemies)
+            foreach (var enemy in enemies)
             {
                 if (enemy.IsDead) continue;
                 if (enemy is not IEnemy iEnemy) continue;
@@ -36,17 +30,19 @@ namespace CardGame
             StartPlayerTurn();
         }
 
-        private void StartPlayerTurn()
+        public async void StartEnemyTurn(Character[] enemies)
         {
-            _cardManipulator.FillInHand();
-            _cardManipulator.RestoreCurrencyAmount();
+            await EnemyTurnSequence(enemies);
+        }
+
+        public void StartPlayerTurn()
+        {
+            OnStartPlayerTurn?.Invoke();
         }
 
         private void EndPlayerTurn()
         {
-            _cardManipulator.FoldCardsInHand();
-            _cardManipulator.SelectedCardHolder?.DeselectCard();
-            StartEnemyTurn();
+            OnEndPlayerTurn?.Invoke();
         }
     }
 }

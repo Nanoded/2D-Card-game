@@ -1,13 +1,14 @@
 using CardGame.Cards;
-using UnityEngine;
 
 namespace CardGame.Characters
 {
+    [System.Serializable]
     public class CharactersHolder
     {
+        [UnityEngine.SerializeField] private CharactersHolderConfig _config;
+
         private Character _player;
         private Character[] _enemies;
-        private CharactersHolderConfig _config;
         private int _deadEnemies;
 
         public delegate void DeathEventHandler();
@@ -17,16 +18,15 @@ namespace CardGame.Characters
         public Character Player => _player;
         public Character[] Enemies => _enemies;
 
-        public CharactersHolder(CharactersHolderConfig config)
+        public void Initialize()
         {
-            _config = config;
             SpawnAndInitializePlayer();
             SpawnAndInitializeEnemies();
         }
 
         private void SpawnAndInitializePlayer()
         {
-            _player = Object.Instantiate(_config.PlayerPrefab, _config.PlayerSpawnPoint);
+            _player = UnityEngine.Object.Instantiate(_config.PlayerPrefab, _config.PlayerSpawnPoint);
             _player.Initialize(this);
         }
 
@@ -35,7 +35,7 @@ namespace CardGame.Characters
             _enemies = new Character[_config.EnemiesSpawnPoints.Length];
             for(int i = 0; i < _config.EnemiesSpawnPoints.Length; i++)
             {
-                _enemies[i] = Object.Instantiate(_config.EnemiesPrefabs[i], _config.EnemiesSpawnPoints[i]);
+                _enemies[i] = UnityEngine.Object.Instantiate(_config.EnemiesPrefabs[i], _config.EnemiesSpawnPoints[i]);
                 _enemies[i].Initialize(this);
             }
         }
